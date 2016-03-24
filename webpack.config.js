@@ -6,12 +6,16 @@ module.exports = {
   entry: [
     'webpack-dev-server/client?http://localhost:3000',
     'webpack/hot/only-dev-server',
-    './src/index'
+    './app/app'
   ],
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js',
+    filename: 'app.js',
     publicPath: '/static/'
+  },
+  resolve: {
+    extensions: ["", ".jsx", ".js"],
+    modulesDirectories: ["app", "node_modules"]
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
@@ -19,9 +23,11 @@ module.exports = {
   ],
   module: {
     loaders: [{
-      test: /\.js$/,
+      test: /\.jsx?$/,
+      exclude: /(node_modules|bower_components)/,
       loaders: ['react-hot', 'babel'],
-      include: path.join(__dirname, 'src')
+      include: path.join(__dirname, 'app'),
+      presets: ["react", "es2015"]
     }]
   }
 };
